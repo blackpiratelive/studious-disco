@@ -115,9 +115,7 @@
 
     <!-- Main content area -->
     <main id="gallery-content" class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <div class="text-center py-20">
-            <p class="text-lg text-slate-500">Loading images from Picsum...</p>
-        </div>
+        <!-- Gallery will be rendered here -->
     </main>
 
     <!-- Fullscreen Modal/Lightbox -->
@@ -170,8 +168,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 
     <script>
-        // --- CONFIG & STATE ---
-        let photos = [];
+        // --- MOCK DATA (RELIABLE & NO API KEY NEEDED) ---
+        const photos = [
+            { id: '10', src: 'https://picsum.photos/id/10/1600/900', thumbnail: 'https://picsum.photos/id/10/400/300', title: 'Forest Path', user: { name: 'Paul Jarvis', link: 'https://unsplash.com/photos/6J--NXulQCs' }},
+            { id: '20', src: 'https://picsum.photos/id/20/1600/900', thumbnail: 'https://picsum.photos/id/20/400/300', title: 'City Fog', user: { name: 'Aleks Dorohovich', link: 'https://unsplash.com/photos/nJdwUHmaY8A' }},
+            { id: '30', src: 'https://picsum.photos/id/30/1600/900', thumbnail: 'https://picsum.photos/id/30/400/300', title: 'Contemplation', user: { name: 'Ales Krivec', link: 'https://unsplash.com/photos/152790-unsplash' }},
+            { id: '42', src: 'https://picsum.photos/id/42/1600/900', thumbnail: 'https://picsum.photos/id/42/400/300', title: 'Desktop Setup', user: { name: 'Justin Leibow', link: 'https://unsplash.com/photos/L3N9p27zULw' }},
+            { id: '48', src: 'https://picsum.photos/id/48/1600/900', thumbnail: 'https://picsum.photos/id/48/400/300', title: 'Winter Pier', user: { name: 'Luke Chesser', link: 'https://unsplash.com/photos/JKUTrJ4vK00' }},
+            { id: '58', src: 'https://picsum.photos/id/58/1600/900', thumbnail: 'https://picsum.photos/id/58/400/300', title: 'Mountain Road', user: { name: 'Luke Chesser', link: 'https://unsplash.com/photos/lfs2O43dhfs' }},
+            { id: '82', src: 'https://picsum.photos/id/82/1600/900', thumbnail: 'https://picsum.photos/id/82/400/300', title: 'Golden Gate', user: { name: 'Sylwia Bartyzel', link: 'https://unsplash.com/photos/y2G8r-r5bYQ' }},
+            { id: '84', src: 'https://picsum.photos/id/84/1600/900', thumbnail: 'https://picsum.photos/id/84/400/300', title: 'Train Tracks', user: { name: 'Benjamin Combs', link: 'https://unsplash.com/photos/K2u71v4ll5s' }},
+            { id: '103', src: 'https://picsum.photos/id/103/1600/900', thumbnail: 'https://picsum.photos/id/103/400/300', title: 'San Francisco', user: { name: 'Ilse Orsel', link: 'https://unsplash.com/photos/YoOT-mal8_A' }},
+            { id: '111', src: 'https://picsum.photos/id/111/1600/900', thumbnail: 'https://picsum.photos/id/111/400/300', title: 'Lake View', user: { name: 'Gabe Rodriguez', link: 'https://unsplash.com/photos/eG32v__O_m0' }},
+            { id: '119', src: 'https://picsum.photos/id/119/1600/900', thumbnail: 'https://picsum.photos/id/119/400/300', title: 'Coastal View', user: { name: 'Nusaiba Zaina', link: 'https://unsplash.com/photos/4--p_t82Z9Y' }},
+            { id: '124', src: 'https://picsum.photos/id/124/1600/900', thumbnail: 'https://picsum.photos/id/124/400/300', title: 'Pineapple', user: { name: 'Pineapple Supply Co.', link: 'https://unsplash.com/photos/A4m_sI3iI-o' }},
+            { id: '145', src: 'https://picsum.photos/id/145/1600/900', thumbnail: 'https://picsum.photos/id/145/400/300', title: 'Night Sky', user: { name: 'Tim Stief', link: 'https://unsplash.com/photos/sGYg_Fx2Lsc' }},
+            { id: '160', src: 'https://picsum.photos/id/160/1600/900', thumbnail: 'https://picsum.photos/id/160/400/300', title: 'Surfer', user: { name: 'Thom', link: 'https://unsplash.com/photos/o-p-b-hbiQ' }},
+            { id: '164', src: 'https://picsum.photos/id/164/1600/900', thumbnail: 'https://picsum.photos/id/164/400/300', title: 'Cityscape', user: { name: 'Lili Popper', link: 'https://unsplash.com/photos/Cjfl0zDjV-4' }},
+            { id: '175', src: 'https://picsum.photos/id/175/1600/900', thumbnail: 'https://picsum.photos/id/175/400/300', title: 'Mountain Ridge', user: { name: 'Good Free Photos', link: 'https://unsplash.com/photos/j4kGYB958b0' }},
+            { id: '180', src: 'https://picsum.photos/id/180/1600/900', thumbnail: 'https://picsum.photos/id/180/400/300', title: 'Coffee & Code', user: { name: 'Galymzhan Abdugalimov', link: 'https://unsplash.com/photos/glRqyWJgUeY' }},
+            { id: '200', src: 'https://picsum.photos/id/200/1600/900', thumbnail: 'https://picsum.photos/id/200/400/300', title: 'Bison', user: { name: 'Jessica Weiller', link: 'https://unsplash.com/photos/LmYxJ5llWSw' }},
+            { id: '219', src: 'https://picsum.photos/id/219/1600/900', thumbnail: 'https://picsum.photos/id/219/400/300', title: 'Jellyfish', user: { name: 'Pietro Jeng', link: 'https://unsplash.com/photos/wthdF1CHb2s' }},
+            { id: '237', src: 'https://picsum.photos/id/237/1600/900', thumbnail: 'https://picsum.photos/id/237/400/300', title: 'Puppy', user: { name: 'André Spieker', link: 'https://unsplash.com/photos/8wTPC-qF_pI' }}
+        ].map(p => ({ ...p, description: 'A beautiful, high-quality photograph.', tags: ['gallery', 'photo', 'art'] }));
+
+
+        // --- STATE ---
         let currentImageIndex = 0;
         let isSidebarCollapsed = false;
         const colorThief = new ColorThief();
@@ -189,31 +211,6 @@
         const $imageContainer = $('#image-container');
         const $sidebarContent = $('#sidebar-content');
         
-        // --- API & DATA FUNCTIONS ---
-        async function fetchPhotosFromPicsum() {
-            try {
-                const response = await fetch(`https://picsum.photos/v2/list?limit=30`);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
-                photos = data.map(item => ({
-                    id: item.id,
-                    src: `https://picsum.photos/id/${item.id}/1600/900`,
-                    thumbnail: `https://picsum.photos/id/${item.id}/400/300`,
-                    title: `Photo by ${item.author}`,
-                    description: 'A beautiful, randomly selected image from Picsum Photos.',
-                    tags: ['random', 'picsum', 'gallery'],
-                    user: {
-                        name: item.author,
-                        link: item.url
-                    }
-                }));
-                renderAllPhotos();
-            } catch (error) {
-                console.error("Could not fetch photos:", error);
-                $galleryContent.html('<div class="text-center py-20"><p class="text-lg text-red-500">Failed to load images from Picsum. Please try refreshing the page.</p></div>');
-            }
-        }
-
         // --- RENDER FUNCTIONS ---
         function initializeJustifiedGallery(selector) {
             selector.justifiedGallery({
@@ -256,7 +253,6 @@
             $imageTags.html(photo.tags.map(tag => `<span class="bg-white/20 text-white text-xs font-medium px-2.5 py-0.5 rounded-full">${tag}</span>`).join(''));
             $imageUser.html(`<a href="${photo.user.link}" target="_blank" class="hover:underline">${photo.user.name}</a>`);
 
-            // Dynamic color styling
             $fullscreenImage.off('load').on('load', function() {
                 try {
                     const dominantColor = colorThief.getColor(this);
@@ -277,21 +273,13 @@
                     });
                 } catch (e) {
                     console.error("Error getting color from image:", e);
-                    // Fallback to a default style
-                     $sidebarContainer.css({
-                        'background-color': 'rgba(0,0,0,0.2)',
-                        'color': 'white'
-                    });
+                    $sidebarContainer.css({'background-color': 'rgba(0,0,0,0.2)', 'color': 'white'});
                 }
             });
-            // Handle cached images
-            if ($fullscreenImage[0].complete) {
-                $fullscreenImage.trigger('load');
-            }
+            if ($fullscreenImage[0].complete) $fullscreenImage.trigger('load');
         }
 
         function isColorDark([r, g, b]) {
-            // Formula to determine perceived brightness
             return (r * 299 + g * 587 + b * 114) / 1000 < 128;
         }
 
@@ -363,7 +351,7 @@
             });
 
             // --- INITIALIZATION ---
-            fetchPhotosFromPicsum();
+            renderAllPhotos();
             updateThemeIcon();
         });
     </script>
