@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Gallery - Draft</title>
+    <style>
+        /* Basic Reset & Root Variables */
+        :root {
+            --bg-color: #f9fafb; /* Light Gray */
+            --text-color: #1f2937; /* Dark Gray */
+            --link-color: #3b82f6; /* Blue */
+            --footer-text: #6b7280; /* Medium Gray */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Header & Footer */
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--footer-text);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--footer-text);
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            /* Creates a responsive grid that adjusts the number of columns based on screen width */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* This creates the square aspect ratio for the thumbnails */
+            aspect-ratio: 1 / 1; 
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            /* This ensures the image covers the container without being stretched */
+            object-fit: cover; 
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>My Awesome Gallery</h1>
+        <p>A simple, responsive image gallery.</p>
+    </header>
+
+    <main class="container">
+        <div class="gallery-grid">
+            <!-- Image Item 1 -->
+            <div class="gallery-item">
+                <a href="#single-view-demo">
+                    <img src="https://placehold.co/600x600/3b82f6/ffffff?text=Mountain" alt="Mountain Vista" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+1';">
+                </a>
+            </div>
+            <!-- Image Item 2 -->
+            <div class="gallery-item">
+                <a href="#single-view-demo">
+                    <img src="https://placehold.co/600x600/10b981/ffffff?text=Forest" alt="Forest Trail"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+2';">
+                </a>
+            </div>
+            <!-- Image Item 3 -->
+            <div class="gallery-item">
+                <a href="#single-view-demo">
+                    <img src="https://placehold.co/600x600/ef4444/ffffff?text=Ocean" alt="Ocean Sunset"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+3';">
+                </a>
+            </div>
+            <!-- Image Item 4 -->
+            <div class="gallery-item">
+                <a href="#single-view-demo">
+                    <img src="https://placehold.co/600x600/f97316/ffffff?text=Desert" alt="Desert Dunes"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+4';">
+                </a>
+            </div>
+            <!-- Image Item 5 -->
+            <div class="gallery-item">
+                <a href="#single-view-demo">
+                    <img src="https://placehold.co/600x600/8b5cf6/ffffff?text=City" alt="City Nightscape"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+5';">
+                </a>
+            </div>
+            <!-- Image Item 6 -->
+            <div class="gallery-item">
+                <a href="#single-view-demo">
+                    <img src="https://placehold.co/600x600/ec4899/ffffff?text=River" alt="Winding River"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+6';">
+                </a>
+            </div>
+             <!-- Image Item 7 -->
+            <div class="gallery-item">
+                <a href="#single-view-demo">
+                    <img src="https://placehold.co/600x600/6366f1/ffffff?text=Lake" alt="Calm Lake"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+7';">
+                </a>
+            </div>
+             <!-- Image Item 8 -->
+            <div class="gallery-item">
+                <a href="#single-view-demo">
+                    <img src="https://placehold.co/600x600/f59e0b/ffffff?text=Fields" alt="Golden Fields"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+8';">
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a>.</p>
+    </footer>
+
+</body>
+</html>
