@@ -116,7 +116,7 @@
     <!-- Main content area -->
     <main id="gallery-content" class="container mx-auto p-4 sm:p-6 lg:p-8">
         <div class="text-center py-20">
-            <p class="text-lg text-slate-500">Loading images...</p>
+            <p class="text-lg text-slate-500">Loading images from Picsum...</p>
         </div>
     </main>
 
@@ -154,7 +154,7 @@
                         <div id="image-tags" class="flex flex-wrap gap-2"></div>
                     </div>
                     <div>
-                        <h3 class="font-semibold text-lg mb-2 border-b pb-1 border-white/20 text-white">User</h3>
+                        <h3 class="font-semibold text-lg mb-2 border-b pb-1 border-white/20 text-white">Photographer</h3>
                         <div id="image-user" class="text-sm text-white/80"></div>
                     </div>
                 </div>
@@ -171,7 +171,6 @@
 
     <script>
         // --- CONFIG & STATE ---
-        const UNSPLASH_API_KEY = 'YOUR_UNSPLASH_ACCESS_KEY'; // IMPORTANT: Replace with your Unsplash Access Key
         let photos = [];
         let currentImageIndex = 0;
         let isSidebarCollapsed = false;
@@ -191,32 +190,27 @@
         const $sidebarContent = $('#sidebar-content');
         
         // --- API & DATA FUNCTIONS ---
-        async function fetchPhotos() {
-            if (!UNSPLASH_API_KEY || UNSPLASH_API_KEY === 'YOUR_UNSPLASH_ACCESS_KEY') {
-                 $galleryContent.html('<div class="text-center py-20"><p class="text-lg text-red-500">Please replace YOUR_UNSPLASH_ACCESS_KEY with a real Unsplash API key in the script.</p></div>');
-                return;
-            }
+        async function fetchPhotosFromPicsum() {
             try {
-                const response = await fetch(`https://api.unsplash.com/photos/random?client_id=${UNSPLASH_API_KEY}&count=30`);
+                const response = await fetch(`https://picsum.photos/v2/list?limit=30`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await response.json();
                 photos = data.map(item => ({
                     id: item.id,
-                    src: item.urls.regular,
-                    thumbnail: item.urls.small,
-                    title: item.alt_description || 'Untitled',
-                    description: item.description || 'No description available.',
-                    tags: item.tags.map(tag => tag.title),
+                    src: `https://picsum.photos/id/${item.id}/1600/900`,
+                    thumbnail: `https://picsum.photos/id/${item.id}/400/300`,
+                    title: `Photo by ${item.author}`,
+                    description: 'A beautiful, randomly selected image from Picsum Photos.',
+                    tags: ['random', 'picsum', 'gallery'],
                     user: {
-                        name: item.user.name,
-                        link: item.user.links.html
-                    },
-                    color: item.color
+                        name: item.author,
+                        link: item.url
+                    }
                 }));
                 renderAllPhotos();
             } catch (error) {
                 console.error("Could not fetch photos:", error);
-                $galleryContent.html('<div class="text-center py-20"><p class="text-lg text-red-500">Failed to load images from Unsplash. Check the API key and console for errors.</p></div>');
+                $galleryContent.html('<div class="text-center py-20"><p class="text-lg text-red-500">Failed to load images from Picsum. Please try refreshing the page.</p></div>');
             }
         }
 
@@ -235,7 +229,7 @@
             if (photos.length === 0) return;
             const galleryHtml = photos.map(photo => `
                 <a href="${photo.src}" onclick="openModal('${photo.id}'); return false;">
-                    <img src="${photo.thumbnail}" alt="${photo.title}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/FFFFFF?text=Error';">
+                    <img src="${photo.thumbnail}" alt="${photo.title}" onerror="this.onerror=null;this.src='https://placehold.co/400/300/cccccc/FFFFFF?text=Error';">
                 </a>
             `).join('');
             
@@ -266,9 +260,8 @@
             $fullscreenImage.off('load').on('load', function() {
                 try {
                     const dominantColor = colorThief.getColor(this);
-                    const palette = colorThief.getPalette(this, 2);
-                    const textColor = isColorDark(palette[0]) ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)';
-                    const secondaryTextColor = isColorDark(palette[0]) ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)';
+                    const textColor = isColorDark(dominantColor) ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)';
+                    const secondaryTextColor = isColorDark(dominantColor) ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)';
                     
                     $sidebarContainer.css({
                         'background-color': `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`,
@@ -276,10 +269,10 @@
                     });
                     $sidebarContainer.find('h2, h3').css('color', textColor);
                     $sidebarContainer.find('p, div, a').css('color', secondaryTextColor);
-                    $sidebarContainer.find('.border-b').css('border-color', isColorDark(palette[0]) ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)');
+                    $sidebarContainer.find('.border-b').css('border-color', isColorDark(dominantColor) ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)');
                     $sidebarContainer.find('button').css('color', textColor);
                     $imageTags.find('span').css({
-                        'background-color': isColorDark(palette[0]) ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)',
+                        'background-color': isColorDark(dominantColor) ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)',
                         'color': textColor
                     });
                 } catch (e) {
@@ -370,7 +363,7 @@
             });
 
             // --- INITIALIZATION ---
-            fetchPhotos();
+            fetchPhotosFromPicsum();
             updateThemeIcon();
         });
     </script>
