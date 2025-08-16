@@ -3,170 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Awesome Gallery - Draft</title>
+    <title>My Photo Gallery</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Basic Reset & Root Variables */
-        :root {
-            --bg-color: #f9fafb; /* Light Gray */
-            --text-color: #1f2937; /* Dark Gray */
-            --link-color: #3b82f6; /* Blue */
-            --footer-text: #6b7280; /* Medium Gray */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
+        /* Custom styles for a minimal look and feel */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* A very light gray */
         }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
+        /* Style for the fullscreen modal transition */
+        #fullscreen-modal {
+            transition: opacity 0.3s ease-in-out;
         }
-
-        /* Header & Footer */
-        header {
-            text-align: center;
-            padding: 2rem 1rem;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            color: var(--footer-text);
-        }
-
-        footer {
-            text-align: center;
-            padding: 1.5rem 1rem;
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            color: var(--footer-text);
-        }
-
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-
-        /* Gallery Grid */
-        .gallery-grid {
-            display: grid;
-            /* Creates a responsive grid that adjusts the number of columns based on screen width */
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .gallery-item {
+        /* Hide scrollbar when modal is open */
+        .modal-open {
             overflow: hidden;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            /* This creates the square aspect ratio for the thumbnails */
-            aspect-ratio: 1 / 1; 
         }
-
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            /* This ensures the image covers the container without being stretched */
-            object-fit: cover; 
-            display: block;
+        /* Active navigation link style */
+        .nav-link.active {
+            color: #1d4ed8; /* A nice blue */
+            border-bottom: 2px solid #1d4ed8;
         }
     </style>
 </head>
-<body>
+<body class="text-gray-800">
 
-    <header>
-        <h1>My Awesome Gallery</h1>
-        <p>A simple, responsive image gallery.</p>
+    <!-- Header and Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-20">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-900">Photo Gallery</h1>
+            <div class="flex space-x-8 text-lg">
+                <a href="#" id="nav-all" class="nav-link pb-1 transition-colors duration-200 hover:text-blue-600">All Photos</a>
+                <a href="#" id="nav-albums" class="nav-link pb-1 transition-colors duration-200 hover:text-blue-600">Albums</a>
+            </div>
+        </nav>
     </header>
 
-    <main class="container">
-        <div class="gallery-grid">
-            <!-- Image Item 1 -->
-            <div class="gallery-item">
-                <a href="#single-view-demo">
-                    <img src="https://placehold.co/600x600/3b82f6/ffffff?text=Mountain" alt="Mountain Vista" 
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+1';">
-                </a>
-            </div>
-            <!-- Image Item 2 -->
-            <div class="gallery-item">
-                <a href="#single-view-demo">
-                    <img src="https://placehold.co/600x600/10b981/ffffff?text=Forest" alt="Forest Trail"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+2';">
-                </a>
-            </div>
-            <!-- Image Item 3 -->
-            <div class="gallery-item">
-                <a href="#single-view-demo">
-                    <img src="https://placehold.co/600x600/ef4444/ffffff?text=Ocean" alt="Ocean Sunset"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+3';">
-                </a>
-            </div>
-            <!-- Image Item 4 -->
-            <div class="gallery-item">
-                <a href="#single-view-demo">
-                    <img src="https://placehold.co/600x600/f97316/ffffff?text=Desert" alt="Desert Dunes"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+4';">
-                </a>
-            </div>
-            <!-- Image Item 5 -->
-            <div class="gallery-item">
-                <a href="#single-view-demo">
-                    <img src="https://placehold.co/600x600/8b5cf6/ffffff?text=City" alt="City Nightscape"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+5';">
-                </a>
-            </div>
-            <!-- Image Item 6 -->
-            <div class="gallery-item">
-                <a href="#single-view-demo">
-                    <img src="https://placehold.co/600x600/ec4899/ffffff?text=River" alt="Winding River"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+6';">
-                </a>
-            </div>
-             <!-- Image Item 7 -->
-            <div class="gallery-item">
-                <a href="#single-view-demo">
-                    <img src="https://placehold.co/600x600/6366f1/ffffff?text=Lake" alt="Calm Lake"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+7';">
-                </a>
-            </div>
-             <!-- Image Item 8 -->
-            <div class="gallery-item">
-                <a href="#single-view-demo">
-                    <img src="https://placehold.co/600x600/f59e0b/ffffff?text=Fields" alt="Golden Fields"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x600/cccccc/ffffff?text=Image+8';">
-                </a>
-            </div>
-        </div>
+    <!-- Main content area where photos will be displayed -->
+    <main id="gallery-content" class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- Photos will be dynamically inserted here -->
     </main>
 
-    <footer>
-        <p>Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a>.</p>
-    </footer>
+    <!-- Fullscreen Modal/Lightbox -->
+    <div id="fullscreen-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4" onclick="closeModalOnClick(event)">
+        <div id="modal-content" class="bg-white rounded-lg shadow-2xl w-full max-w-6xl h-full max-h-[90vh] flex flex-col md:flex-row overflow-hidden">
+            <!-- Image Display Area -->
+            <div class="w-full md:w-3/4 h-1/2 md:h-full bg-gray-900 flex items-center justify-center p-2">
+                <img id="fullscreen-image" src="" alt="Fullscreen Image" class="max-w-full max-h-full object-contain">
+            </div>
+            <!-- Sidebar with Image Information -->
+            <div class="w-full md:w-1/4 h-1/2 md:h-full p-6 overflow-y-auto bg-gray-50">
+                <div class="flex justify-between items-start">
+                    <h2 id="image-title" class="text-2xl font-bold mb-4 text-gray-900"></h2>
+                    <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 transition-colors">&times;</button>
+                </div>
+                
+                <p id="image-description" class="text-gray-600 mb-6"></p>
+                
+                <div class="mb-6">
+                    <h3 class="font-semibold text-lg mb-2 border-b pb-1">Tags</h3>
+                    <div id="image-tags" class="flex flex-wrap gap-2">
+                        <!-- Tags will be inserted here -->
+                    </div>
+                </div>
 
+                <div>
+                    <h3 class="font-semibold text-lg mb-2 border-b pb-1">EXIF Data</h3>
+                    <ul id="image-exif" class="space-y-2 text-sm text-gray-600">
+                        <!-- EXIF data will be inserted here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        // Mock data for the photo gallery. In a real application, this would come from an API.
+        const photos = [
+            {
+                id: 1,
+                src: 'https://placehold.co/800x600/31C48D/FFFFFF?text=Nature+1',
+                thumbnail: 'https://placehold.co/400x300/31C48D/FFFFFF?text=Nature+1',
+                title: 'Emerald Forest',
+                description: 'Sunlight filtering through the dense canopy of an ancient emerald forest.',
+                album: 'Nature',
+                tags: ['forest', 'green', 'sunlight', 'trees'],
+                exif: { camera: 'Sony A7 III', focalLength: '24mm', aperture: 'f/4.0', iso: '200', shutterSpeed: '1/250s' }
+            },
+            {
+                id: 2,
+                src: 'https://placehold.co/800x600/7E3AF2/FFFFFF?text=Cityscape+1',
+                thumbnail: 'https://placehold.co/400x300/7E3AF2/FFFFFF?text=Cityscape+1',
+                title: 'Metropolis at Dusk',
+                description: 'The vibrant city lights begin to glow as the sun sets over the skyline.',
+                album: 'Cityscapes',
+                tags: ['city', 'dusk', 'skyline', 'lights'],
+                exif: { camera: 'Canon EOS R6', focalLength: '50mm', aperture: 'f/1.8', iso: '800', shutterSpeed: '1/60s' }
+            },
+            {
+                id: 3,
+                src: 'https://placehold.co/600x800/F23A69/FFFFFF?text=Portrait+1',
+                thumbnail: 'https://placehold.co/300x400/F23A69/FFFFFF?text=Portrait+1',
+                title: 'Street Portrait',
+                description: 'A candid moment captured on a busy city street.',
+                album: 'Portraits',
+                tags: ['portrait', 'candid', 'street', 'urban'],
+                exif: { camera: 'Nikon Z6 II', focalLength: '85mm', aperture: 'f/1.4', iso: '100', shutterSpeed: '1/500s' }
+            },
+            {
+                id: 4,
+                src: 'https://placehold.co/800x600/F27A3A/FFFFFF?text=Nature+2',
+                thumbnail: 'https://placehold.co/400x300/F27A3A/FFFFFF?text=Nature+2',
+                title: 'Desert Dunes',
+                description: 'The warm, golden light of dawn casting long shadows across sand dunes.',
+                album: 'Nature',
+                tags: ['desert', 'sand', 'sunrise', 'dunes'],
+                exif: { camera: 'Sony A7 III', focalLength: '70mm', aperture: 'f/8.0', iso: '100', shutterSpeed: '1/125s' }
+            },
+            {
+                id: 5,
+                src: 'https://placehold.co/800x600/3A86F2/FFFFFF?text=Cityscape+2',
+                thumbnail: 'https://placehold.co/400x300/3A86F2/FFFFFF?text=Cityscape+2',
+                title: 'Reflections',
+                description: 'Skyscrapers reflected in the calm waters of the harbor.',
+                album: 'Cityscapes',
+                tags: ['city', 'reflection', 'water', 'architecture'],
+                exif: { camera: 'Canon EOS R6', focalLength: '16mm', aperture: 'f/11', iso: '100', shutterSpeed: '30s' }
+            },
+            {
+                id: 6,
+                src: 'https://placehold.co/600x800/F2E23A/FFFFFF?text=Portrait+2',
+                thumbnail: 'https://placehold.co/300x400/F2E23A/FFFFFF?text=Portrait+2',
+                title: 'Golden Hour Glow',
+                description: 'A portrait taken during the magical golden hour, with a soft, warm light.',
+                album: 'Portraits',
+                tags: ['portrait', 'golden hour', 'woman', 'smile'],
+                exif: { camera: 'Nikon Z6 II', focalLength: '50mm', aperture: 'f/2.0', iso: '100', shutterSpeed: '1/400s' }
+            },
+            {
+                id: 7,
+                src: 'https://placehold.co/800x600/16BDCA/FFFFFF?text=Nature+3',
+                thumbnail: 'https://placehold.co/400x300/16BDCA/FFFFFF?text=Nature+3',
+                title: 'Coastal Serenity',
+                description: 'Calm turquoise waves gently lapping against a pristine sandy beach.',
+                album: 'Nature',
+                tags: ['beach', 'ocean', 'coast', 'serene'],
+                exif: { camera: 'Sony A7 III', focalLength: '35mm', aperture: 'f/5.6', iso: '100', shutterSpeed: '1/1000s' }
+            },
+            {
+                id: 8,
+                src: 'https://placehold.co/800x600/9C3AF2/FFFFFF?text=Cityscape+3',
+                thumbnail: 'https://placehold.co/400x300/9C3AF2/FFFFFF?text=Cityscape+3',
+                title: 'Urban Flow',
+                description: 'Light trails from traffic on a bridge, showing the constant motion of the city.',
+                album: 'Cityscapes',
+                tags: ['long exposure', 'light trails', 'traffic', 'night'],
+                exif: { camera: 'Canon EOS R6', focalLength: '24mm', aperture: 'f/16', iso: '100', shutterSpeed: '15s' }
+            }
+        ];
+
+        // --- DOM ELEMENTS ---
+        const galleryContent = document.getElementById('gallery-content');
+        const modal = document.getElementById('fullscreen-modal');
+        const fullscreenImage = document.getElementById('fullscreen-image');
+        const imageTitle = document.getElementById('image-title');
+        const imageDescription = document.getElementById('image-description');
+        const imageTags = document.getElementById('image-tags');
+        const imageExif = document.getElementById('image-exif');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const navAll = document.getElementById('nav-all');
+        const navAlbums = document.getElementById('nav-albums');
+
+        // --- RENDER FUNCTIONS ---
+
+        /**
+         * Renders all photos in a simple grid.
+         */
+        function renderAllPhotos() {
+            galleryContent.innerHTML = ''; // Clear existing content
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4';
+            
+            photos.forEach(photo => {
+                grid.innerHTML += `
+                    <div class="group cursor-pointer" onclick="openModal(${photo.id})">
+                        <img src="${photo.thumbnail}" alt="${photo.title}" 
+                             class="w-full h-full object-cover rounded-lg shadow-md transform group-hover:scale-105 transition-transform duration-300"
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/FFFFFF?text=Error';">
+                    </div>
+                `;
+            });
+            galleryContent.appendChild(grid);
+            setActiveNav('all');
+        }
+
+        /**
+         * Groups photos by album and renders them in sections.
+         */
+        function renderAlbums() {
+            galleryContent.innerHTML = ''; // Clear existing content
+            const albums = photos.reduce((acc, photo) => {
+                (acc[photo.album] = acc[photo.album] || []).push(photo);
+                return acc;
+            }, {});
+
+            for (const albumName in albums) {
+                const albumSection = document.createElement('section');
+                albumSection.className = 'mb-12';
+                
+                const albumTitle = document.createElement('h2');
+                albumTitle.className = 'text-3xl font-bold mb-6 border-b-2 pb-2';
+                albumTitle.textContent = albumName;
+                albumSection.appendChild(albumTitle);
+
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4';
+                
+                albums[albumName].forEach(photo => {
+                    grid.innerHTML += `
+                        <div class="group cursor-pointer" onclick="openModal(${photo.id})">
+                            <img src="${photo.thumbnail}" alt="${photo.title}" 
+                                 class="w-full h-full object-cover rounded-lg shadow-md transform group-hover:scale-105 transition-transform duration-300"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/FFFFFF?text=Error';">
+                        </div>
+                    `;
+                });
+                albumSection.appendChild(grid);
+                galleryContent.appendChild(albumSection);
+            }
+            setActiveNav('albums');
+        }
+        
+        /**
+         * Sets the active state for navigation links.
+         * @param {string} activeLink - 'all' or 'albums'
+         */
+        function setActiveNav(activeLink) {
+            navAll.classList.toggle('active', activeLink === 'all');
+            navAlbums.classList.toggle('active', activeLink === 'albums');
+        }
+
+
+        // --- MODAL FUNCTIONS ---
+
+        /**
+         * Opens the fullscreen modal with details for a specific photo.
+         * @param {number} photoId - The ID of the photo to display.
+         */
+        function openModal(photoId) {
+            const photo = photos.find(p => p.id === photoId);
+            if (!photo) return;
+
+            // Populate modal content
+            fullscreenImage.src = photo.src;
+            fullscreenImage.alt = photo.title;
+            imageTitle.textContent = photo.title;
+            imageDescription.textContent = photo.description;
+
+            // Populate tags
+            imageTags.innerHTML = '';
+            photo.tags.forEach(tag => {
+                imageTags.innerHTML += `<span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">${tag}</span>`;
+            });
+
+            // Populate EXIF data
+            imageExif.innerHTML = '';
+            for (const key in photo.exif) {
+                const readableKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                imageExif.innerHTML += `<li class="flex justify-between"><strong>${readableKey}:</strong> <span>${photo.exif[key]}</span></li>`;
+            }
+
+            // Show modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('modal-open'); // Prevent background scrolling
+        }
+
+        /**
+         * Closes the fullscreen modal.
+         */
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('modal-open');
+        }
+        
+        /**
+         * Closes the modal if the click is on the background overlay, not the content.
+         * @param {MouseEvent} event - The click event.
+         */
+        function closeModalOnClick(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+
+        // --- EVENT LISTENERS ---
+        navAll.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderAllPhotos();
+        });
+
+        navAlbums.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderAlbums();
+        });
+        
+        closeModalBtn.addEventListener('click', closeModal);
+        
+        // Close modal with the Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // --- INITIALIZATION ---
+        // Load the "All Photos" view by default when the page loads.
+        document.addEventListener('DOMContentLoaded', renderAllPhotos);
+
+    </script>
 </body>
 </html>
